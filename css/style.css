@@ -1,0 +1,67 @@
+/* style home page */
+
+a {
+    text-decoration: none;
+    color: #000!important;
+}
+
+.link:hover {
+    text-decoration: none !important;
+}
+
+.col-sm-1 {
+    background-color: hsl(199, 78%, 70%);
+}
+
+.col-sm-3 {
+    background-color: hsl(199, 97%, 14%);
+}
+
+
+/* navbar */
+
+.navbar {
+    background-color: #e3f2fd;
+}
+
+.active {
+    background-color: #005d69 !important;
+    display: block;
+}
+
+
+/* sidebar */
+
+#side-menu a {
+    margin-top: 1rem;
+    color: #ffffff;
+    font-weight: bold;
+}
+
+#side-menu a:hover {
+    background-color: azure;
+    color: #000;
+    font-weight: bold;
+    display: block;
+}
+
+#side-menu {
+    margin-top: 2rem;
+}
+
+h1 {
+    color: snow;
+    text-align: center;
+    font-size: ;
+}
+
+
+/* footer */
+
+#footer {
+    padding: 5px;
+    border-top: 1px solid black;
+    color: #eeeeee;
+    background-color: #005d69;
+    text-align: center;
+}
