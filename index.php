@@ -1,101 +1,62 @@
+
 <?php
-include_once('includes/connection.php');
-include_once('includes/article.php');
-$article = new article;
-$articles =$article->fetch_all();
+include("includes/header.php");
 
-//echo md5('password');
+if(isset($_GET['search'])){
+  $search= $_GET["search"];
+  $query = "SELECT *FROM posts
+  WHERE date LIKE '%$search%' OR titel LIKE '%$search%'
+  OR category LIKE '%$search%' OR post LIKE '%$search%' ";
+}else{
+  $query="SELECT* FROM posts";
+}
+
+$execute = $db->query($query);
 ?>
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>cms blog</title>
-        <link rel="stylesheet" href="css/style.css">
-        <link rel="stylesheet" href="css/bootstrap.min.css">
-    
-    </head>
-   
+            
+          <?php 
+        global $db;
+        foreach ($execute as $execute){
+              $idArticle=$execute['id'];
+              $titleArticle=$execute['title'];
+              $imageArticle=$execute['image'];
+              $categoryArticle=$execute['category'];
+              $auteurArticle=$execute['auteur'];
+              $dateArticle=$execute['date'];
+              $contentArticle=$execute['article'];
 
-<body>
+              
 
-    <div class="container-fluid">
-       
-            <nav class="navbar navbar-light  col-sm-12">
-                <a href="index.php" class="navbar-brand">Kachkat Blog</a>
-                <form class="form-inline">
-                    <button class="btn btn-danger my-2 my-sm-0" type="submit"><a class="link" href="admin/index.php">Adminstration</a></button>
-                </form>
-            </nav>
-        <!-- End navbar -->
-        <div class="row">
-            <div class="col-sm-1">  
-                    <ul id="side-menu" class="nav nav-pills nav stacked" >
-                        <li ><a class="nav-link active" href="dashbord.php"> Articles</a></li>
-                        <li ><a class="nav-link" href="categories.php">Categories</a></li>
-                        <li><a class="nav-link" href="#">Login</a></li>
-                    </ul>
-            </div>
-        <!-- End aside area -->
 
-            <div class="col-sm-8">
-                    <h2> Nouveau Articles </h2>
-                    <ol>
-                        <?php foreach($articles as $article){?>
-                                <li>
-                                    <a href="article.php?id=<?php  echo $article['article_id'];?>">
-                                    <p><?php  echo $article['aricle_tite'];?></p>
-                                    </a>
-                                
-                                    <p><?php  echo $article['article_content']?></p>
-                                    
-                                    <small>
-                                        poseted on :<br>
-                                        <span><?php  echo date('l jS',$article['article_timestamp']); ?></span>
-                                    </small>
-                                    Ecrivez Par :<?php echo $article['article_auteur'];?>-
+          ?>
 
-                                </li>
-                        <?php }?>
-                    </ol>
-            </div>
-            <div class="col-sm-3">  
-                    
-            <h1>Publicités</h1>
+             <div class="card ">
+              
 
-            <div class="card">
-                    <img src="img/logo.png" class="card-img-top" alt="...">
-            </div>
-                <div class="card p-3 text-right">
-                    <blockquote class="blockquote mb-0">
-                    <p>Haraj Maroc Nouveau solution pour toue les commercents qui on besoin d'aide pour vendre leur Produit enligne</p>
-                    <footer class="blockquote-footer">
-                        <small class="text-muted">
-                        Contacter-nous<cite title="Source Title">Haraj Maroc</cite>
-                        </small>
-                    </footer>
-                    </blockquote>
+                <img class="img-responsive img-rounded" src="admin/upload/<?php echo $imageArticle; ?>" alt="image article">
+                <div class="caption">
+                  <p class="blog-post-title">
+                    <a href="article.php?post-<?php echo $idArticle;?>"><?php echo htmlentities($titleArticle);?></a>
+                  </p>
+
                 </div>
+              <p class="blog-post-meta description">Category : <?php echo htmlentities($categoryArticle);?><br> Publier en : <?php echo htmlentities($dateArticle);?><br> Par : <a href="#"><?php echo $auteurArticle;?></a></p>
 
-            </div>
-        </div>
-
-
-    </div>
-    <div id="footer">
-        </hr><p>Designed by | kaddour Meach | &copy:2020---All right reserved</p>
-        <a style="color:#fff;text-decoration:none;cursor:pointer; font-weight:bold;" href="#">
-                <p>
-                    this site is only used for confirm the compétance php,sql,front end..  
-                </p>
-        </a>
-    </div>
-    <div style="height:15px;background-color:#e3f2fd"></div>
+              
+              <p cass="post"><?php  echo substr($contentArticle,0,150)."...";?></p>
+              
+             <a href="article.php?id<?php echo $idArticle;?>" > <span class="btn btn-primary right">Afficher plus</span></a>
+              
+              </div>
+              <br>
+          <?php   }?>
 
 
 
-<!--  link JS Boostrap -->
-<script src="js/bbootstrap.min.js"></script>
-
-
-</body>
-</html>
+           </div><!-- /.blog-main -->
+        <?php
+include("includes/sidebar.php");
+?>
+<?php
+include("includes/footer.php");
+?>

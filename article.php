@@ -1,46 +1,95 @@
-<?php 
-include_once('includes/connection.php');
-include_once('includes/article.php');
+<?php
+include("includes/header.php");
 
-$article = new article;
 
-if(isset($_GET['id'])){
-    $id=$_GET['id'];
-    $data=$article->fetch_data($id);
-    ?>
-    <html>
-            <head>
-            <title>cms blog</title>
-            <link rel="stylesheet" href="assets/style.css">
-            </head>
-                <body>
-                    <div class="container">
-                        <a href="index.php" id="logo" >CMS</a>
-                        <h4>
-                            <?php echo $data['aricle_tite'];?>-
-                           <small> 
-                               posted<br> <?php echo date('l jS',$data['article_timestamp']);?>
+if(isset($_GET['article'])){
+    $id = mysqli_real_escape_string($db,$_GET['article']);
+    $query = " SELECT *FROM aricles WHERE id='$id'";
+  }
 
-                           </small>
-                        </h4>
-                        <p>
-                            <?php echo $data['article_content'];?>-
-                        </p>
-                        <div>
-                           Ecriver Par : <?php echo ' '.$data['article_auteur'];?>-
+  $articles = $db->query($query);
 
-                        </div>
-                        <a href="index.php">&larr;Retourne</a>
+?>  
+            
+
+<br>
+<br>
+
+<?php if($articles->num_rows > 0) { 
+            while ($row=$articles->fetch_assoc()){
+          ?>
+
+              <div class="blog-post">
+              <h2 class="blog-post-title"><a href="article.php?post-<?php echo $row['id'];?>"><?php echo $row['titre'];?></a></h2>
+              <p class="blog-post-meta"><?php echo $row['date'];?> Par  <a href="#"><?php echo $row['auteur'];?></a></p>
+
+              
+              <?php  
+              $body=$row['body'];
+              echo substr($body,0,400)."...";
+
+              ?>
+              
+              <a href="<?php echo $row['id'];?>" class="btn btn-primary">Afficher plus</a>
+              
+              
+              </div>
+          <?php  } }?>
+
+
+
+         
+
+
+          
+        <blockquote>2 Comments</blockquote>
+         <div class="comment-area">
+         
+                <form>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Name</label>
+                        <input type="text"  name="name" class="form-control" id="exampleInputEmail1" placeholder="Name">
                     </div>
-                </body>
-</html> 
- 
-    <?php
-    
-        }else{
-            header('location:index.php');
-            exit();
-        }
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Website</label>
+                        <input type="text"  name="Website"class="form-control" id="exampleInputEmail1" placeholder="Website">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">Commentaire</label>
+                        <textarea name="comment" id="" cols="60" rows="10" class="form-control"></textarea>                    
+                    </div> 
+                    <button type="submit" name="post_comment" class="btn btn-primary">Post Comment</button>
+                </form>
 
+                <br>
+                <br>
+                <hr> 
+                <div class="comment">
+                    <div class="comment_head">
+                        <a href="#">kaddour</a>
+                        <img src="img/nimg.png" alt="photo profil" style="width:50px,height:50px" >
 
-    ?>
+                       
+                    </div>
+                    this test comments
+
+                </div>
+                <div class="comment">
+                    <div class="comment_head">
+                        <a href="#">khalid</a>
+                        <img src="img/nimg.png" alt="photo profil" style="width:50px,height:50px" >
+
+                       
+                    </div>
+                    this test2 comments....
+
+                </div>
+         </div>
+
+        </div><!-- /.blog-main -->
+        <?php
+include("includes/sidebar.php");
+?>
+<?php
+include("includes/footer.php");
+?>
