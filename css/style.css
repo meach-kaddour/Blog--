@@ -216,3 +216,7 @@ h6,
     float: right;
     margin: 2em;
 }
+
+.link {
+    color: #f9f9f9 !important;
+}

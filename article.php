@@ -1,48 +1,58 @@
 <?php
 include("includes/header.php");
+?>
+<?php
 
+global $db;
 
-if(isset($_GET['article'])){
-    $id = mysqli_real_escape_string($db,$_GET['article']);
-    $query = " SELECT *FROM aricles WHERE id='$id'";
-  }
+if(isset($_GET['searchButton'])){
+  $search= $_GET["search"]; 
+  $query = " SELECT * FROM posts
+  WHERE date LIKE '%$search%' OR titel LIKE '%$search%'
+  OR category LIKE '%$search%' OR post LIKE '%$search%' OR auteur LIKE '%$search%' ";
+}else{
+    $PostIdUrl = $_GET["id"];
+  $Query =" SELECT * FROM posts where id='$PostIdUrl' ";
+}
 
-  $articles = $db->query($query);
-
-?>  
+$execute =  mysqli_query($db,$Query);
+?>
             
-
-<br>
-<br>
-
-<?php if($articles->num_rows > 0) { 
-            while ($row=$articles->fetch_assoc()){
+          <?php 
+        
+        foreach ($execute as $execute){
+              $idArticle=$execute['id'];
+              $titleArticle=$execute['title'];
+              $imageArticle=$execute['image'];
+              $categoryArticle=$execute['category'];
+              $auteurArticle=$execute['auteur'];
+              $dateArticle=$execute['date'];
+              $contentArticle=$execute['article'];
           ?>
 
-              <div class="blog-post">
-              <h2 class="blog-post-title"><a href="article.php?post-<?php echo $row['id'];?>"><?php echo $row['titre'];?></a></h2>
-              <p class="blog-post-meta"><?php echo $row['date'];?> Par  <a href="#"><?php echo $row['auteur'];?></a></p>
+             <div class="card ">
+              
+
+                <img class="img-responsive img-rounded" src="admin/upload/<?php echo $imageArticle; ?>" alt="image article">
+                <br>
+                <div class="caption">
+                  <p class="blog-post-title">
+                    <a href="article.php?post-<?php echo $idArticle;?>"><?php echo htmlentities($titleArticle);?></a>
+                  </p>
+
+                </div>
+                <br>
+              <p class="blog-post-meta description">Category : <?php echo htmlentities($categoryArticle);?><br> Publier en : <?php echo htmlentities($dateArticle);?><br> Par : <a href="#"><?php echo $auteurArticle;?></a></p>
 
               
-              <?php  
-              $body=$row['body'];
-              echo substr($body,0,400)."...";
-
-              ?>
+              <p cass="post"><?php  echo $contentArticle;?></p>
               
-              <a href="<?php echo $row['id'];?>" class="btn btn-primary">Afficher plus</a>
-              
-              
+            
               </div>
-          <?php  } }?>
+              <br>
+          <?php   }?>
 
-
-
-         
-
-
-          
-        <blockquote>2 Comments</blockquote>
+          <blockquote>2 Comments</blockquote>
          <div class="comment-area">
          
                 <form>
@@ -85,6 +95,13 @@ if(isset($_GET['article'])){
 
                 </div>
          </div>
+
+
+         
+
+
+          
+        
 
         </div><!-- /.blog-main -->
         <?php

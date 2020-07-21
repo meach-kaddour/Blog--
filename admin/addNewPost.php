@@ -63,15 +63,44 @@ if(isset($_POST["Submit"])){
 
 <body>
     <div class="container-fluid">
-        <div class="row">
-            <nav class="navbar navbar-light  col-sm-12">
-            <a class="navbar-brand text-uppercase text-justify"> <strong>Admin Dashbord</strong></p></a>
-                <form class="form-inline">
-                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                </form>
-            </nav>
-        </div>
+    <div style="height:10px; background:#27aae1;" ></div>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                <a class="navbar-brand" href="#"><img src="../img/brand.png" alt=""></a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                  <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                      <a class="nav-link" href="../index.php" target="_blank">Acceuil <span class="sr-only">(current)</span></a>
+                    </li>
+                    
+                    <li class="nav-item dropdown">
+                      <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Category
+                      </a>
+                      <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="#">PHP</a>
+                        <a class="dropdown-item" href="#">HTML</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">Autres</a>
+                      </div>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link " href="#" tabindex="-1" aria-disabled="true">Contacter-Nous</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link " href="#" tabindex="-1" aria-disabled="true">Service</a>
+                    </li>
+                  </ul>
+                  <form class="form-inline my-2 my-lg-0">
+                    <input class="form-control mr-sm-2" type="search" name="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-primary my-2 my-sm-0"  name="searchButton" type="submit">Go</button>
+                  </form>
+                </div>
+    </nav>  <!-- End navbar -->
+        <div style="height:10px; background:#27aae1;" ></div>
         <!-- End navbar -->
         <div class="row">
             <div class="col-sm-2">  
@@ -106,7 +135,7 @@ if(isset($_POST["Submit"])){
                                 
                                 </div>
                                 <div class="form-group">
-                                    <label for="category"><span class="fieldInfo"> Select Category:</span></label>
+                                    <label for="category"><span class="fieldInfo"> Category:</span></label>
                                     <select class ="form-control" name="category" id="category">
                                     
                                         <?php
@@ -118,7 +147,7 @@ if(isset($_POST["Submit"])){
                                                     $Id=$execute["id"];
                                                     $nom=$execute["nom"];        
                                         ?>
-                                        <option value=""> <?php echo $nom; ?></option>
+                                        <option value=" <?php echo $nom; ?> "></option>
                                                 <?php } ?>
                                     
                                     </select>
