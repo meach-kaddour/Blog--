@@ -37,7 +37,7 @@ include("includes/db.php");
                     </li>
                     
                     <li class="nav-item dropdown">
-                      <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <a class="nav-link dropdown-toggle link" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Category
                       </a>
                       <div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -48,10 +48,10 @@ include("includes/db.php");
                       </div>
                     </li>
                     <li class="nav-item">
-                      <a class="nav-link " href="#" tabindex="-1" aria-disabled="true">Contacter-Nous</a>
+                      <a class="nav-link link" href="#" tabindex="-1" aria-disabled="true">Contacter-Nous</a>
                     </li>
                     <li class="nav-item">
-                      <a class="nav-link " href="#" tabindex="-1" aria-disabled="true">Service</a>
+                      <a class="nav-link link" href="#" tabindex="-1" aria-disabled="true">Service</a>
                     </li>
                   </ul>
                   <form class="form-inline my-2 my-lg-0">

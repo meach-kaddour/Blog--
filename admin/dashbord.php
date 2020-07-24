@@ -34,7 +34,7 @@ include("includes/function.php");
                     </li>
                     
                     <li class="nav-item dropdown">
-                      <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <a class="nav-link dropdown-toggle link" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Category
                       </a>
                       <div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -45,10 +45,10 @@ include("includes/function.php");
                       </div>
                     </li>
                     <li class="nav-item">
-                      <a class="nav-link " href="#" tabindex="-1" aria-disabled="true">Contacter-Nous</a>
+                      <a class="nav-link link" href="#" tabindex="-1" aria-disabled="true">Contacter-Nous</a>
                     </li>
                     <li class="nav-item">
-                      <a class="nav-link " href="#" tabindex="-1" aria-disabled="true">Service</a>
+                      <a class="nav-link link" href="#" tabindex="-1" aria-disabled="true">Service</a>
                     </li>
                   </ul>
                   <form class="form-inline my-2 my-lg-0">
@@ -139,7 +139,7 @@ include("includes/function.php");
                         <td><img src="upload/<?php echo $imageArticle; ?>" width="200px"; height="40px"></td>
                         <td>
                            <a href="EditPost.php?Edit=<?php echo $idArticle;?>"> <span class="btn btn-warning">Edit</span></a> 
-                           <a href="deletePost.php?delete=<?php echo $idArticle;?>"> <span class="btn btn-danger">Delete</span></a> 
+                           <a href="DeletePost.php?delete=<?php echo $idArticle;?>"> <span class="btn btn-danger">Delete</span></a> 
 
                         </td>
                         <td><a href="../article.php?id=<?php echo $idArticle;?>" target="_blank"><span class="btn btn-primary">Live Preview</span></a></td>

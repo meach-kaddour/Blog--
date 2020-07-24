@@ -1,112 +1,216 @@
 <?php
-include("includes/header.php");
+include("includes/config.php");
+include("includes/db.php");
+include("includes/session.php");
+include("includes/function.php");
+
+
 ?>
 <?php
+if(isset($_POST["Submit"])){
+        $Name = $_POST["Name"];
+        $Email = $_POST["Email"];
+        $comment = $_POST["comment"];
 
-global $db;
+        date_default_timezone_set("Africa/Casablanca");
+        $CurrentTime =time();
+        // $DateTime =strftime("%Y-%m-%d %H:%M:%S",$CurrentTime);
+        $DateTime =strftime("%B-%d-%Y %H:%M:%S",$CurrentTime);
 
-if(isset($_GET['searchButton'])){
-  $search= $_GET["search"]; 
-  $query = " SELECT * FROM posts
-  WHERE date LIKE '%$search%' OR titel LIKE '%$search%'
-  OR category LIKE '%$search%' OR post LIKE '%$search%' OR auteur LIKE '%$search%' ";
-}else{
-    $PostIdUrl = $_GET["id"];
-  $Query =" SELECT * FROM posts where id='$PostIdUrl' ";
-}
+        $DateTime;
+        $PostId=$_GET["id"];
 
-$execute =  mysqli_query($db,$Query);
-?>
+        if(empty($Name)||empty($Email)||empty($comment)){
+            $_SESSION["ErrorMessage"]="Tous Les Champs Doit Rensignés";
             
-          <?php 
+        }elseif (strlen($comment)>500){
+            $_SESSION["ErrorMessage"]="Ne Doit Pas Passé 500 caractère.";           
+        }
+        else{
+            global $db;
+            $PostIdUrl = $_GET["id"];
+            $Query="INSERT INTO  comments (date,name,email,comment,status,post_id)
+            VALUES ('$DateTime','$Name','$Email','$comment','OFF','$PostIdUrl'";
+            $Execute = $db->query($Query);
+            
+            if($Execute){
+                $_SESSION["successMessage"]= "Comments a été bien Ajoutée";
+                Redirect_to("article.php?id=$PostId");
+              
+
+            }else{
+                $_SESSION["ErrorMessage"]= "Error En l'Ajoute d'article ";
+                Redirect_to("article.php?id=($PostId)");
+
+            }
+        }
+}
+?>
+
+<!Doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Blog CMS </title>
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <!-- custom CSS link-->   
+    <link href="css/style.css" rel="stylesheet"> 
+  </head>
+
+  <body>
+                
+        <!-- Start navbar -->
+        <div style="height:10px; background:#27aae1;" ></div>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                <a class="navbar-brand" href="#"><img src="img/brand.png" alt=""></a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                  <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                      <a class="nav-link link" href="index.php">Blog<span class="sr-only">(current)</span></a>
+                    </li>
+                    
+                    <li class="nav-item dropdown">
+                      <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Category
+                      </a>
+                      <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="#">PHP</a>
+                        <a class="dropdown-item" href="#">HTML</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">Autres</a>
+                      </div>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link " href="#" tabindex="-1" aria-disabled="true">Contacter-Nous</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link " href="#" tabindex="-1" aria-disabled="true">Service</a>
+                    </li>
+                  </ul>
+                  <form class="form-inline my-2 my-lg-0">
+                    <input class="form-control mr-sm-2" type="search" name="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-primary my-2 my-sm-0"  name="searchButton" type="submit">Go</button>
+                  </form>
+                </div>
+         </nav>
+        <div style="height:10px; background:#27aae1;" ></div>
+        <!-- End Navbar -->
         
-        foreach ($execute as $execute){
-              $idArticle=$execute['id'];
-              $titleArticle=$execute['title'];
-              $imageArticle=$execute['image'];
-              $categoryArticle=$execute['category'];
-              $auteurArticle=$execute['auteur'];
-              $dateArticle=$execute['date'];
-              $contentArticle=$execute['article'];
-          ?>
+
+     
+
+    <div class="container-fluid">
+            <div class="blog-header">
+                <h1 class="blog-title">Blog-CMS</h1>
+                <p class="lead">Le blog informatif a été développé pour créer un réseau personnel d'informations où une personne peut facilement consulter les informations</p>
+                <hr>
+            </div>
+            <div class="row">
+
+<!-- Start Main Area -->
+              <div class="col-sm-8 blog-main">
+        
+                          <?php
+
+                              global $db;
+
+                              if(isset($_GET['searchButton'])){
+                                $search = $_GET["search"]; 
+                                $query = " SELECT * FROM posts
+                                WHERE date LIKE '%$search%' OR titel LIKE '%$search%'
+                                OR category LIKE '%$search%' OR post LIKE '%$search%' OR auteur LIKE '%$search%' ";
+                              }else{
+                                  $PostIdUrl = $_GET["id"];
+                                $Query =" SELECT * FROM posts where id='$PostIdUrl' ";
+                              }
+
+                              $execute =  mysqli_query($db,$Query);
+                              ?>
+                                      
+                                    <?php 
+                                  
+                                  foreach ($execute as $execute){
+                                        $idArticle=$execute['id'];
+                                        $titleArticle=$execute['title'];
+                                        $imageArticle=$execute['image'];
+                                        $categoryArticle=$execute['category'];
+                                        $auteurArticle=$execute['auteur'];
+                                        $dateArticle=$execute['date'];
+                                        $contentArticle=$execute['article'];
+                                    ?>
 
              <div class="card ">
               
 
-                <img class="img-responsive img-rounded" src="admin/upload/<?php echo $imageArticle; ?>" alt="image article">
-                <br>
-                <div class="caption">
-                  <p class="blog-post-title">
-                    <a href="article.php?post-<?php echo $idArticle;?>"><?php echo htmlentities($titleArticle);?></a>
-                  </p>
+                    <img class="img-responsive img-rounded" src="admin/upload/<?php echo $imageArticle; ?>" alt="image article">
+                    <br>
+                    <div class="caption">
+                      <p class="blog-post-title">
+                        <a href="article.php?post-<?php echo $idArticle;?>"><?php echo htmlentities($titleArticle);?></a>
+                      </p>
 
-                </div>
-                <br>
-              <p class="blog-post-meta description">Category : <?php echo htmlentities($categoryArticle);?><br> Publier en : <?php echo htmlentities($dateArticle);?><br> Par : <a href="#"><?php echo $auteurArticle;?></a></p>
+                    </div>
+                    <br>
+                  <p class="blog-post-meta description">Category : <?php echo htmlentities($categoryArticle);?><br> Publier en : <?php echo htmlentities($dateArticle);?><br> Par : <a href="#"><?php echo $auteurArticle;?></a></p>
 
-              
-              <p cass="post"><?php  echo $contentArticle;?></p>
-              
+                  
+                  <p cass="post"><?php  echo $contentArticle;?></p>
+                  
             
               </div>
               <br>
-          <?php   }?>
 
-          <blockquote>2 Comments</blockquote>
-         <div class="comment-area">
-         
-                <form>
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">Name</label>
-                        <input type="text"  name="name" class="form-control" id="exampleInputEmail1" placeholder="Name">
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">Website</label>
-                        <input type="text"  name="Website"class="form-control" id="exampleInputEmail1" placeholder="Website">
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputPassword1">Commentaire</label>
-                        <textarea name="comment" id="" cols="60" rows="10" class="form-control"></textarea>                    
-                    </div> 
-                    <button type="submit" name="post_comment" class="btn btn-primary">Post Comment</button>
-                </form>
+              <?php   }?>
 
-                <br>
-                <br>
-                <hr> 
-                <div class="comment">
-                    <div class="comment_head">
-                        <a href="#">kaddour</a>
-                        <img src="img/nimg.png" alt="photo profil" style="width:50px,height:50px" >
 
-                       
-                    </div>
-                    this test comments
-
+              <br><br>
+              <span class="lead">Partagrer avec nous votre Point de vue Pour Ce Article</span>
+              <br><br>
+              <span class="h3 fieldInfo">Comments :</span><br><br>
+              <div>
+                
+                <div><?php
+                    echo Message(); 
+                    echo successMessage();
+                    ?>
                 </div>
-                <div class="comment">
-                    <div class="comment_head">
-                        <a href="#">khalid</a>
-                        <img src="img/nimg.png" alt="photo profil" style="width:50px,height:50px" >
+              <form action="article.php?id=<?php echo $PostIdUrl; ?>" method="POST" enctype="multipart/form-data">
+                                <fieldset>
+                                <div class="form-group">
+                                    <label for="Name"><span class="fieldInfo">Name:</span></label>
+                                    <input class ="form-control" type="text" name="Name" id="Name"placeholder="Name">
+                                
+                                </div>
+                                <div class="form-group">
+                                    <label for="Email"><span class="fieldInfo">Email:</span></label>
+                                    <input class ="form-control" type="email" name="Email" id="Email"placeholder="Email">
+                                
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="commentArea"><span class="fieldInfo">Comment  :</span></label>
+                                    <textarea class ="form-control" type="text" name="comment" id="commentArea"></textarea>
+                                
+                                </div>
+                           
+                                <input class="btn btn-primary " type="submit" name="Submit" value="Submit">
+                            </fieldset>
 
-                       
-                    </div>
-                    this test2 comments....
-
-                </div>
-         </div>
-
-
-         
-
-
-          
-        
-
-        </div><!-- /.blog-main -->
+                        </form>
+        </div>
+        </div><!-- End Main Area-->
         <?php
 include("includes/sidebar.php");
 ?>
+<!-- End side bar -->
 <?php
 include("includes/footer.php");
 ?>
+<!-- End Footer-->

@@ -40,7 +40,7 @@ $Execute = $db->query($query);
               <p class="blog-post-meta description">Category : <?php echo htmlentities($categoryArticle);?><br> Publier en : <?php echo htmlentities($dateArticle);?><br> Par : <a href="#"><?php echo $auteurArticle;?></a></p>
 
               
-              <p cass="post"><?php  echo substr($contentArticle,0,150)."...";?></p>
+              <p class="post"><?php  echo substr($contentArticle,0,150)."...";?></p>
               
              <a href="article.php?id=<?php echo $idArticle;?>" > <span class="btn btn-primary right">Afficher plus</span></a>
               

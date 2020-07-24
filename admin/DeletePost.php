@@ -21,35 +21,27 @@ if(isset($_POST["Submit"])){
         $Image = $_FILES["Image"]["name"];
         $Target= "Upload/".basename($_FILES["Image"]["name"]);
 
-
-        if(empty($Title)){
-            $_SESSION["ErrorMessage"]="Titre est Nécessaire";
-            Redirect_to("addNewPost.php");
-        }elseif (strlen($Title)<5){
-            $_SESSION["ErrorMessage"]="Très court comme titre d'article!!";
-            Redirect_to("addNewPost.php");
-        }
-        else{
             global $db;
-            $Query="INSERT INTO  posts (title,date,auteur,image,article,category)
-            VALUES ('$Title','$DateTime','$Admin','$Image','$Post','$category')";
+            $DeleteUrl=$_GET['delete'];
+            $Query="DELETE  FROM posts WHERE id='$DeleteUrl'";          
             $Execute = $db->query($Query);
             move_uploaded_file($_FILES["Image"]["tmp_name"],$Target);
             if($Execute){
-                $_SESSION["successMessage"]= "l'article a été bien Ajoutée";
-                Redirect_to("addNewPost.php");
+                // $_SESSION["ErrorMessage"]= "Error En supperession d'article ";
+                $_SESSION["successMessage"]= "La supperession a été bien effectuer";
+                Redirect_to("dashbord.php");
 
             }else{
-                $_SESSION["ErrorMessage"]= "Error En l'Ajoute d'article ";
-                Redirect_to("addNewPost.php");
+                $_SESSION["ErrorMessage"]= "Error En supperession d'article ";
+                Redirect_to("dashbord.php");
             }
-        }
+        
 }
 ?>
 <!DOCTYPE html>
 <html>
 <head>
-<title>Add New Post</title></head>
+<title>Delete Post</title></head>
  <!-- custom CSS link -->
  <link href="css/adminstyle.css" rel="stylesheet">
 
@@ -73,11 +65,11 @@ if(isset($_POST["Submit"])){
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                   <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
-                      <a class="nav-link link" href="../index.php" target="_blank">Acceuil <span class="sr-only">(current)</span></a>
+                      <a class="nav-link" href="../index.php" target="_blank">Acceuil <span class="sr-only">(current)</span></a>
                     </li>
                     
                     <li class="nav-item dropdown">
-                      <a class="nav-link link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Category
                       </a>
                       <div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -88,10 +80,10 @@ if(isset($_POST["Submit"])){
                       </div>
                     </li>
                     <li class="nav-item">
-                      <a class="nav-link link" href="#" tabindex="-1" aria-disabled="true">Contacter-Nous</a>
+                      <a class="nav-link " href="#" tabindex="-1" aria-disabled="true">Contacter-Nous</a>
                     </li>
                     <li class="nav-item">
-                      <a class="nav-link link" href="#" tabindex="-1" aria-disabled="true">Service</a>
+                      <a class="nav-link " href="#" tabindex="-1" aria-disabled="true">Service</a>
                     </li>
                   </ul>
                   <form class="form-inline my-2 my-lg-0">
@@ -118,7 +110,7 @@ if(isset($_POST["Submit"])){
 
             <div class="col-sm-10">
                     <br>
-                    <h2>Ajouter Nouveaux Articles</h2>
+                    <h2>Delete  Post</h2>
                     <hr>
                     <?php
                         echo Message(); 
@@ -127,16 +119,34 @@ if(isset($_POST["Submit"])){
                     <br> 
 
                         <div>
-                        <form action="addNewPost.php" method="post" enctype="multipart/form-data">
+                            <?php 
+                             global $db;
+                             $urlQuery=$_GET['delete'];
+                             $Query="SELECT * FROM posts WHERE id='$urlQuery'";
+                             $execute = $db->query($Query);
+                             foreach ($execute as $execute){
+                                $Title = $execute["title"];
+                                $category = $execute["category"];
+                                $Image = $execute["image"];
+                                $Post = $execute["article"];  
+                            }
+
+
+
+                            ?>
+                        <form action="DeletePost.php?delete=<?php echo $urlQuery ;?>" method="post" enctype="multipart/form-data">
                             <fieldset>
                                 <div class="form-group">
                                     <label for="Title"><span class="fieldInfo">Title:</span></label>
-                                    <input type="text" class ="form-control" name="Title" id="Title"placeholder="Titre">
+                                    <input  disabled type="text" value= "<?php echo $Title ; ?>" class ="form-control" name="Title" id="Title"placeholder="Titre">
                                 
                                 </div>
                                 <div class="form-group">
+                                    <span class="fieldInfo"> Existe Category:</span>
+                                    <?php echo $category; ?>
+                                    <br>
                                     <label for="category"><span class="fieldInfo"> Category:</span></label>
-                                    <select class ="form-control" name="category" id="category">
+                                    <select  disabled class ="form-control" name="category" id="category">
                                     
                                         <?php
                                                 global $db;
@@ -147,24 +157,27 @@ if(isset($_POST["Submit"])){
                                                     $Id=$execute["id"];
                                                     $nom=$execute["nom"];        
                                         ?>
-                                        <option value=""><?php echo $nom; ?></option>
+                                        <option value=""> <?php echo $nom; ?></option>
                                                 <?php } ?>
                                     
                                     </select>
                                 
                                 </div>
                                 <div class="form-group">
+                                <span class="fieldInfo"> Existe Image:</span>
+                                     <img src="Upload/<?php echo $Image; ?> "  width="180px"; height="60px">
+                                     <br>
                                     <label for="Image"><span class="fieldInfo">Select Image:</span></label>
-                                    <input  type="File" class ="form-control" name="Image" id="Image"placeholder="Select Image">
+                                    <input  disabled type="File" class ="form-control" name="Image" id="Image"placeholder="Select Image">
                                 
                                 </div>
                                 <div class="form-group">
                                     <label for="postarea"><span class="fieldInfo">Post:</span></label>
-                                    <textarea class ="form-control" name="Post" type="text" id="postarea"></textarea>
+                                    <textarea disabled class ="form-control" name="Post" id="postarea"><?php echo $Post; ?></textarea>
                                 
                                 </div>
                            
-                                <input class="btn btn-success btn-block" type="submit" name="Submit" value="Ajouter un Article">
+                                <input class="btn btn-danger btn-block" type="submit" name="Submit" value="Delete L'article">
                             </fieldset>
 
                         </form>
