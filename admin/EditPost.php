@@ -54,14 +54,15 @@ if(isset($_POST["Submit"])){
 <!DOCTYPE html>
 <html>
 <head>
-<title>Edit Post</title></head>
- <!-- custom CSS link -->
- <link href="css/adminstyle.css" rel="stylesheet">
-
+<title>Edit Post</title>
+ 
 <!-- Bootstrap core CSS -->
 <link href="css/bootstrap.min.css" rel="stylesheet">
+<!-- custom CSS link -->
+ <link href="css/adminstyle.css" rel="stylesheet">
+<link href="css/style.css" rel="stylesheet">
 
-
+</head>
    
     
 
@@ -70,7 +71,6 @@ if(isset($_POST["Submit"])){
     <div class="container-fluid">
     <div style="height:10px; background:#27aae1;" ></div>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-                <a class="navbar-brand" href="#"><img src="../img/brand.png" alt=""></a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                   <span class="navbar-toggler-icon"></span>
                 </button>
@@ -113,9 +113,8 @@ if(isset($_POST["Submit"])){
                         <li ><a class="nav-link " href="dashbord.php">Dashbord</a></li>
                         <li ><a class="nav-link active" href="addNewPost.php">Add New Post</a></li>
                         <li ><a class="nav-link " href="categories.php">Categories</a></li>
-                        
-                        <li><a class="nav-link" href="#"> Admin Comments</a></li>
                         <li><a class="nav-link" href="../index.php"> Acceder au Live Blog</a></li>
+                        <li><a class="nav-link" href="admin.php"> Manage Admins</a></li>
                         <li><a class="nav-link" href="#">Logout</a></li>
                     </ul>
             </div>
@@ -123,7 +122,7 @@ if(isset($_POST["Submit"])){
 
             <div class="col-sm-10">
                     <br>
-                    <h2>Update Post</h2>
+                    <h2>Mise à Jour Des Articles</h2>
                     <hr>
                     <?php
                         echo Message(); 

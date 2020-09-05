@@ -40,39 +40,82 @@ if(isset($_POST["Submit"])){
 <!DOCTYPE html>
 <html>
 <head>
-<title>Dashbord Admin</title></head>
- <!-- custom CSS link -->
- <link href="css/adminstyle.css" rel="stylesheet">
+<title>Dashbord Admin</title>
+ 
 
 <!-- Bootstrap core CSS -->
 <link href="css/bootstrap.min.css" rel="stylesheet">
+<!-- custom CSS link -->
+<link href="../css/adminstyle.css" rel="stylesheet">
+<link href="../css/style.css" rel="stylesheet">
 
 
-   >
+   
     
-
+</head>
 
 <body>
+    
+        <div style="height:10px; background:#27aae1;" ></div>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                <a class="navbar-brand" href="#"><img src="img/brand.jbg" alt=""></a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                  <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                      <a class="nav-link link" href="index.php">Blog<span class="sr-only">(current)</span></a>
+                    </li>
+                    
+                    <li class="nav-item dropdown">
+                      <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Category
+                      </a>
+                      <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                      <?php
+                        global $db;
+                        $viewQuery="SELECT * FROM categories";
+                        $execute = $db->query($viewQuery);
+                        $SrNo=0;
+                        foreach ($execute as $execute){
+                            $Id=$execute["id"];
+                            $nom=$execute["nom"];
+                         
+                        ?>
+                            
+                                    <a class="dropdown-item" href="<?php echo $Id ;?>"><?php echo $nom ;?></a>
+                            <?php } ?>
+                        
+                        
+                      </div>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link " href="#" tabindex="-1" aria-disabled="true">Contacter-Nous</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link " href="#" tabindex="-1" aria-disabled="true">Service</a>
+                    </li>
+                  </ul>
+                  <form class="form-inline my-2 my-lg-0">
+                    <input class="form-control mr-sm-2" type="search" name="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-primary my-2 my-sm-0"  name="searchButton" type="submit">Go</button>
+                  </form>
+                </div>
+         </nav>
+        <div style="height:10px; background:#27aae1;" ></div>
+        
+    <!-- End navbar -->
     <div class="container-fluid">
-        <div class="row">
-            <nav class="navbar navbar-light  col-sm-12">
-            <a class="navbar-brand text-uppercase text-justify"> <strong>Admin Dashbord</strong></p></a>
-                <form class="form-inline">
-                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                </form>
-            </nav>
-        </div>
-        <!-- End navbar -->
         <div class="row">
             <div class="col-sm-2">  
                     <ul id="side-menu" class="nav nav-pills nav stacked" >
                         <li ><a class="nav-link " href="dashbord.php">Dashbord</a></li>
                         <li ><a class="nav-link" href="addNewPost.php">Add New Post</a></li>
-                        <li ><a class="nav-link active" href="categories.php">Categories</a></li>
-                        
-                        <li><a class="nav-link" href="#"> Admin Comments</a></li>
+                        <li ><a class="nav-link active" href="categories.php">Categories</a><li>
                         <li><a class="nav-link" href="../index.php"> Acceder au Live Blog</a></li>
+                        <li><a class="nav-link" href="admin.php"> Manage Admins</a></li>
                         <li><a class="nav-link" href="#">Logout</a></li>
                     </ul>
             </div>
@@ -111,6 +154,8 @@ if(isset($_POST["Submit"])){
                                 <tr>
                                         <th>categories Id</th>
                                         <th>categories Name</th>
+                                        <th>Action</th>
+
                                 </tr>
                         <?php
                         global $db;
@@ -127,8 +172,11 @@ if(isset($_POST["Submit"])){
                         
                         ?>
                                 <tr>
-                                    <td><?php echo $SrNo ?></td>
-                                    <td><?php echo $nom ?></td>
+                                    <td><?php echo $SrNo ;?></td>
+                                    <td><?php echo $nom ;?></td>
+                                    <td><a href="deleteCategory.php?id=<?php echo$Id ?>">
+                                    <span class="btn btn-danger">Delete</span>
+                                </a></td>
 
                                 </tr>
                             <?php } ?>
@@ -152,6 +200,6 @@ if(isset($_POST["Submit"])){
 
 
 <!-- JS, Popper.js, and jQuery -->
-<script src="js/bootstrap.min.js"></script>
+<script src="js/boost"></script>
 </body>
 </html>

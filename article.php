@@ -18,7 +18,7 @@ if(isset($_POST["Submit"])){
         $DateTime =strftime("%B-%d-%Y %H:%M:%S",$CurrentTime);
 
         $DateTime;
-        $PostId=$_GET["id"];
+        $PostIdUrl=$_GET["id"];
 
         if(empty($Name)||empty($Email)||empty($comment)){
             $_SESSION["ErrorMessage"]="Tous Les Champs Doit Rensignés";
@@ -28,10 +28,10 @@ if(isset($_POST["Submit"])){
         }
         else{
             global $db;
-            $PostIdUrl = $_GET["id"];
-            $Query="INSERT INTO  comments (date,name,email,comment,status,post_id)
-            VALUES ('$DateTime','$Name','$Email','$comment','OFF','$PostIdUrl'";
-            $Execute = $db->query($Query);
+            global $PostIdUrl;
+            $Query="INSERT INTO  commentss (name,email,date,comment,status)
+            VALUES ('$Name','$Email','$DateTime','$comment','OFF'";
+            $Execute = mysqli_query($db,$Query);
             
             if($Execute){
                 $_SESSION["successMessage"]= "Comments a été bien Ajoutée";
@@ -40,7 +40,7 @@ if(isset($_POST["Submit"])){
 
             }else{
                 $_SESSION["ErrorMessage"]= "Error En l'Ajoute d'article ";
-                Redirect_to("article.php?id=($PostId)");
+                Redirect_to("article.php?id=$PostId");
 
             }
         }
@@ -65,7 +65,7 @@ if(isset($_POST["Submit"])){
         <!-- Start navbar -->
         <div style="height:10px; background:#27aae1;" ></div>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-                <a class="navbar-brand" href="#"><img src="img/brand.png" alt=""></a>
+                <a class="navbar-brand" href="#"><img src="img/brand.jbg" alt=""></a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                   <span class="navbar-toggler-icon"></span>
                 </button>
@@ -123,7 +123,7 @@ if(isset($_POST["Submit"])){
 
                               if(isset($_GET['searchButton'])){
                                 $search = $_GET["search"]; 
-                                $query = " SELECT * FROM posts
+                                $Query = " SELECT * FROM posts
                                 WHERE date LIKE '%$search%' OR titel LIKE '%$search%'
                                 OR category LIKE '%$search%' OR post LIKE '%$search%' OR auteur LIKE '%$search%' ";
                               }else{
@@ -131,7 +131,7 @@ if(isset($_POST["Submit"])){
                                 $Query =" SELECT * FROM posts where id='$PostIdUrl' ";
                               }
 
-                              $execute =  mysqli_query($db,$Query);
+                              $execute = mysqli_query($db,$Query);
                               ?>
                                       
                                     <?php 
@@ -146,71 +146,31 @@ if(isset($_POST["Submit"])){
                                         $contentArticle=$execute['article'];
                                     ?>
 
-             <div class="card ">
+              <div class="card ">
               
 
-                    <img class="img-responsive img-rounded" src="admin/upload/<?php echo $imageArticle; ?>" alt="image article">
-                    <br>
-                    <div class="caption">
-                      <p class="blog-post-title">
-                        <a href="article.php?post-<?php echo $idArticle;?>"><?php echo htmlentities($titleArticle);?></a>
-                      </p>
+                            <img style="height:60vh" class="img-responsive img-rounded" src="admin/upload/<?php echo $imageArticle; ?>" alt="image article">
+                            <br>
+                            <div class="caption">
+                              <p class="blog-post-title">
+                                <a href="article.php?id=<?php echo $idArticle;?>"><?php echo htmlentities($titleArticle);?></a>
+                              </p>
 
-                    </div>
-                    <br>
-                  <p class="blog-post-meta description">Category : <?php echo htmlentities($categoryArticle);?><br> Publier en : <?php echo htmlentities($dateArticle);?><br> Par : <a href="#"><?php echo $auteurArticle;?></a></p>
+                            </div>
+                            <br>
+                              <p class="blog-post-meta description">Category : <?php echo htmlentities($categoryArticle);?><br> Publier en : <?php echo htmlentities($dateArticle);?><br> Par : <a href="#"><?php echo $auteurArticle;?></a></p>  
+                              <p cass="post"><?php  echo $contentArticle;?></p>
+                          
+                    
+                            </div>
+                      <br>
 
-                  
-                  <p cass="post"><?php  echo $contentArticle;?></p>
-                  
-            
-              </div>
-              <br>
-
-              <?php   }?>
+                      <?php   }?>
 
 
-              <br><br>
-              <span class="lead">Partagrer avec nous votre Point de vue Pour Ce Article</span>
-              <br><br>
-              <span class="h3 fieldInfo">Comments :</span><br><br>
-              <div>
-                
-                <div><?php
-                    echo Message(); 
-                    echo successMessage();
-                    ?>
-                </div>
-              <form action="article.php?id=<?php echo $PostIdUrl; ?>" method="POST" enctype="multipart/form-data">
-                                <fieldset>
-                                <div class="form-group">
-                                    <label for="Name"><span class="fieldInfo">Name:</span></label>
-                                    <input class ="form-control" type="text" name="Name" id="Name"placeholder="Name">
-                                
-                                </div>
-                                <div class="form-group">
-                                    <label for="Email"><span class="fieldInfo">Email:</span></label>
-                                    <input class ="form-control" type="email" name="Email" id="Email"placeholder="Email">
-                                
-                                </div>
-                                
-                                <div class="form-group">
-                                    <label for="commentArea"><span class="fieldInfo">Comment  :</span></label>
-                                    <textarea class ="form-control" type="text" name="comment" id="commentArea"></textarea>
-                                
-                                </div>
-                           
-                                <input class="btn btn-primary " type="submit" name="Submit" value="Submit">
-                            </fieldset>
-
-                        </form>
-        </div>
-        </div><!-- End Main Area-->
-        <?php
-include("includes/sidebar.php");
-?>
-<!-- End side bar -->
-<?php
-include("includes/footer.php");
-?>
-<!-- End Footer-->
+              
+              </div><!-- End Main Area-->
+        <?php include("views/sidebar.php");?>
+        <!-- End side bar -->
+        <?php include("views/footer.php");?>
+        <!-- End Footer-->

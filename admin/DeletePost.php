@@ -20,19 +20,18 @@ if(isset($_POST["Submit"])){
         $Admin = "kaddour";
         $Image = $_FILES["Image"]["name"];
         $Target= "Upload/".basename($_FILES["Image"]["name"]);
-
+       
             global $db;
-            $DeleteUrl=$_GET['delete'];
-            $Query="DELETE  FROM posts WHERE id='$DeleteUrl'";          
+            $deleteUrl=$_GET['delete'];
+            $Query="DELETE FROM posts WHERE id='$deleteUrl'";
             $Execute = $db->query($Query);
             move_uploaded_file($_FILES["Image"]["tmp_name"],$Target);
             if($Execute){
-                // $_SESSION["ErrorMessage"]= "Error En supperession d'article ";
-                $_SESSION["successMessage"]= "La supperession a été bien effectuer";
+                $_SESSION["successMessage"]= "l'article a été Supprimée";
                 Redirect_to("dashbord.php");
 
             }else{
-                $_SESSION["ErrorMessage"]= "Error En supperession d'article ";
+                $_SESSION["ErrorMessage"]= "Error En Supperission d'article ";
                 Redirect_to("dashbord.php");
             }
         
@@ -41,23 +40,20 @@ if(isset($_POST["Submit"])){
 <!DOCTYPE html>
 <html>
 <head>
-<title>Delete Post</title></head>
- <!-- custom CSS link -->
- <link href="css/adminstyle.css" rel="stylesheet">
+<title>Delete Post</title>
+ 
 
 <!-- Bootstrap core CSS -->
 <link href="css/bootstrap.min.css" rel="stylesheet">
+<!-- custom CSS link -->
+ <link href="../css/adminstyle.css" rel="stylesheet">
+ <link href="../css/style.css" rel="stylesheet">
 
-
-   
-    
-
-
+</head>
 <body>
     <div class="container-fluid">
     <div style="height:10px; background:#27aae1;" ></div>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-                <a class="navbar-brand" href="#"><img src="../img/brand.png" alt=""></a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                   <span class="navbar-toggler-icon"></span>
                 </button>
@@ -91,7 +87,7 @@ if(isset($_POST["Submit"])){
                     <button class="btn btn-outline-primary my-2 my-sm-0"  name="searchButton" type="submit">Go</button>
                   </form>
                 </div>
-    </nav>  <!-- End navbar -->
+    </nav>  
         <div style="height:10px; background:#27aae1;" ></div>
         <!-- End navbar -->
         <div class="row">
@@ -100,9 +96,8 @@ if(isset($_POST["Submit"])){
                         <li ><a class="nav-link " href="dashbord.php">Dashbord</a></li>
                         <li ><a class="nav-link active" href="addNewPost.php">Add New Post</a></li>
                         <li ><a class="nav-link " href="categories.php">Categories</a></li>
-                        
-                        <li><a class="nav-link" href="#"> Admin Comments</a></li>
                         <li><a class="nav-link" href="../index.php"> Acceder au Live Blog</a></li>
+                        <li><a class="nav-link" href="admin.php"> Manage Admins</a></li>
                         <li><a class="nav-link" href="#">Logout</a></li>
                     </ul>
             </div>
@@ -110,7 +105,7 @@ if(isset($_POST["Submit"])){
 
             <div class="col-sm-10">
                     <br>
-                    <h2>Delete  Post</h2>
+                    <h2>Supperession Des Articles</h2>
                     <hr>
                     <?php
                         echo Message(); 
@@ -121,8 +116,8 @@ if(isset($_POST["Submit"])){
                         <div>
                             <?php 
                              global $db;
-                             $urlQuery=$_GET['delete'];
-                             $Query="SELECT * FROM posts WHERE id='$urlQuery'";
+                             $DeletePost=$_GET['delete'];
+                             $Query="SELECT * FROM posts WHERE id='$DeletePost'";
                              $execute = $db->query($Query);
                              foreach ($execute as $execute){
                                 $Title = $execute["title"];
@@ -131,14 +126,12 @@ if(isset($_POST["Submit"])){
                                 $Post = $execute["article"];  
                             }
 
-
-
                             ?>
-                        <form action="DeletePost.php?delete=<?php echo $urlQuery ;?>" method="post" enctype="multipart/form-data">
+                        <form action="DeletePost.php?delete=<?php echo $DeletePost ;?>" method="post" enctype="multipart/form-data">
                             <fieldset>
                                 <div class="form-group">
                                     <label for="Title"><span class="fieldInfo">Title:</span></label>
-                                    <input  disabled type="text" value= "<?php echo $Title ; ?>" class ="form-control" name="Title" id="Title"placeholder="Titre">
+                                    <input type="text" value= "<?php echo $Title ; ?>" class ="form-control" name="Title" id="Title"placeholder="Titre" disabled>
                                 
                                 </div>
                                 <div class="form-group">
@@ -146,7 +139,7 @@ if(isset($_POST["Submit"])){
                                     <?php echo $category; ?>
                                     <br>
                                     <label for="category"><span class="fieldInfo"> Category:</span></label>
-                                    <select  disabled class ="form-control" name="category" id="category">
+                                    <select class ="form-control" name="category" id="category">
                                     
                                         <?php
                                                 global $db;
@@ -157,7 +150,7 @@ if(isset($_POST["Submit"])){
                                                     $Id=$execute["id"];
                                                     $nom=$execute["nom"];        
                                         ?>
-                                        <option value=""> <?php echo $nom; ?></option>
+                                        <option value="" disabled> <?php echo $nom; ?></option>
                                                 <?php } ?>
                                     
                                     </select>
@@ -168,16 +161,16 @@ if(isset($_POST["Submit"])){
                                      <img src="Upload/<?php echo $Image; ?> "  width="180px"; height="60px">
                                      <br>
                                     <label for="Image"><span class="fieldInfo">Select Image:</span></label>
-                                    <input  disabled type="File" class ="form-control" name="Image" id="Image"placeholder="Select Image">
+                                    <input  type="File" class ="form-control" name="Image" id="Image"placeholder="Select Image"disabled>
                                 
                                 </div>
                                 <div class="form-group">
                                     <label for="postarea"><span class="fieldInfo">Post:</span></label>
-                                    <textarea disabled class ="form-control" name="Post" id="postarea"><?php echo $Post; ?></textarea>
+                                    <textarea class ="form-control" name="Post" id="postarea" disabled><?php echo $Post; ?></textarea>
                                 
                                 </div>
                            
-                                <input class="btn btn-danger btn-block" type="submit" name="Submit" value="Delete L'article">
+                                <input class="btn btn-danger btn-block" type="submit" name="Submit" value="Supprimé L'article">
                             </fieldset>
 
                         </form>

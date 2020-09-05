@@ -1,4 +1,4 @@
-<?php include("includes/header.php");?>
+<?php include("views/header.php");?>
 <?php
 
 global $db;
@@ -30,10 +30,10 @@ $Execute = $db->query($query);
              <div class="card ">
               
 
-                <img class="img-responsive img-rounded" src="admin/upload/<?php echo $imageArticle; ?>" alt="image article">
+                <img class="img-responsive img-rounded" style="height:60vh" src="admin/upload/<?php echo $imageArticle; ?>" alt="image article">
                 <div class="caption">
-                  <p class="blog-post-title">
-                    <a href="article.php?id=<?php echo $idArticle;?>"><?php echo htmlentities($titleArticle);?></a>
+                  <p class="blog-post-title blockquote text-center">
+                    <a  class="mb-0" href="article.php?id=<?php echo $idArticle;?>"><?php echo htmlentities($titleArticle);?></a>
                   </p>
 
                 </div>
@@ -52,8 +52,8 @@ $Execute = $db->query($query);
 
            </div><!-- /.blog-main -->
         <?php
-include("includes/sidebar.php");
+include("views/sidebar.php");
 ?>
 <?php
-include("includes/footer.php");
+include("views/footer.php");
 ?>
