@@ -1,43 +1,36 @@
-<?php
-include("includes/session.php");
-include("includes/config.php");
-include("includes/db.php");
-include("includes/function.php");
+<?php 
+include("admin/includes/session.php");
+include("admin/includes/function.php"); 
+// session_start();
+// if(isset($_SESSION['username'])){
+//     header("location: admin/dashbord.php");
+// }
 
-?>
-<?php
-function login_in($username,$Password){
-    global $db;
-    $viewQuery="SELECT * FROM registration WHERE username='$username' AND reg-pass='$Password'";
-    $execute = $db->query($viewQuery);
-    if($execute){
-        return $execute;
-    }else{
-        return null;
-    }
-}
+// if(isset($_SESSION['password'])){
+//     header("location: admin/dashbord.php");
+// }
 
-if(isset($_POST["submit"])){
+if(isset($_POST["submit"]) && !empty($_POST["username"]) && !empty($_POST["Password"])){
         $username = $_POST["username"];
         $Password = $_POST["Password"];
-        
+        if ($_POST['username'] == 'admin' && $_POST['Password'] == '1234') 
+            {
+                    $_SESSION['valid'] = true;
+                    $_SESSION['timeout'] = time();
+                    $_SESSION['username'] = 'admin';
+                    $_SESSION['password'] = '1234';
+                    $_SESSION["successMessage"]= "Login succesful";
+                    Redirect_to("admin/dashbord.php");
+                  
+                  echo 'You have entered valid use name and password';
+               }else {
+                    $_SESSION["ErrorMessage"]= "Invalid compte";
+                    Redirect_to("index.php");
+                    $msg = 'Wrong username or password';
+               }
 
-        if(empty($username) ||empty($Password)){
-            $_SESSION["ErrorMessage"]="  Oops!!!Renseignés Tous les champs";
-            Redirect_to("login.php");
-        }
-        else{
-            $get_account=login_in($username,$password);
-            if($get_account){
-                $_SESSION["successMessage"]= "Login succesful";
-                Redirect_to("dashbord.php");
+            }
 
-            }else{
-                $_SESSION["ErrorMessage"]= "Invalid compte";
-                Redirect_to("login.php");
-        }
-}
-}
 
 ?>
 <!DOCTYPE html>
@@ -47,7 +40,7 @@ if(isset($_POST["submit"])){
  
 
 <!-- Bootstrap core CSS -->
-<link href="css/bootstrap.min.css" rel="stylesheet">
+<link href="../css/bootstrap.min.css" rel="stylesheet">
 <!-- custom CSS link -->
  <link href="../css/adminstyle.css" rel="stylesheet">
  <link href="../css/style.css" rel="stylesheet">
@@ -58,27 +51,20 @@ if(isset($_POST["submit"])){
     }
     .col-sm-4{
         margin:auto;
+        width:50%;
     }
-</style>
-   
-    
+</style>   
 </head>
-
-<body>
+<body>       
     
-      
-        
-    <!-- End navbar -->
     <div class="container-fluid">
-        <div class="row">
-            
+        <div class="row">    
         <!-- End aside area -->
-
             <div class="col-sm-4 ">
-                    <?php
-                        echo Message(); 
-                        echo successMessage();
-                    ?>
+                    <!-- <?php
+                        // echo Message(); 
+                        // echo successMessage();
+                    ?> -->
                     <br><br><br><br>
                     <h2>Welcome To Login</h2>
                     <hr>
@@ -86,7 +72,7 @@ if(isset($_POST["submit"])){
                     <br> 
 
                         <div>
-                        <form action="login.php" method="POST">
+                        <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="POST">
                                 <fieldset>
                                 <div class="form-group">
                                 <label for="username"><span class="fieldInfo">Username :</span></label>
@@ -113,6 +99,11 @@ if(isset($_POST["submit"])){
 
 
     </div>
+    <br><br><br><br>
+    <footer class="blog-footer">
+      <p>Copyright @2020 <a href="index.php">Designe</a> Par <a href="https://twitter.com/mdo">@kaddour</a>.</p>
+     
+    </footer>
     
 
 

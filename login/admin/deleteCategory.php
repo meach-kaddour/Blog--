@@ -1,8 +1,7 @@
+<?php include("includes/include.php"); ?>
+
 <?php
-include("includes/config.php");
-include("includes/db.php");
-include("includes/session.php");
-include("includes/function.php");
+
 if(isset($_GET["id"])){
     $Idurl=$_GET["id"];
     global $db;

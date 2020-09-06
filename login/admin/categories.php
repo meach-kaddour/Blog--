@@ -1,9 +1,5 @@
-<?php
-include("includes/config.php");
-include("includes/db.php");
-include("includes/function.php");
-include("includes/session.php");
-?>
+<?php include("includes/include.php"); ?>
+
 <?php
 if(isset($_POST["Submit"])){
         $category = $_POST["category"]; 
@@ -37,76 +33,8 @@ if(isset($_POST["Submit"])){
         }
 }
 ?>
-<!DOCTYPE html>
-<html>
-<head>
-<title>Dashbord Admin</title>
- 
+<?php include("views/header.php"); ?>
 
-<!-- Bootstrap core CSS -->
-<link href="css/bootstrap.min.css" rel="stylesheet">
-<!-- custom CSS link -->
-<link href="../css/adminstyle.css" rel="stylesheet">
-<link href="../css/style.css" rel="stylesheet">
-
-
-   
-    
-</head>
-
-<body>
-    
-        <div style="height:10px; background:#27aae1;" ></div>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-                <a class="navbar-brand" href="#"><img src="img/brand.jbg" alt=""></a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                  <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                  <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
-                      <a class="nav-link link" href="index.php">Blog<span class="sr-only">(current)</span></a>
-                    </li>
-                    
-                    <li class="nav-item dropdown">
-                      <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Category
-                      </a>
-                      <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                      <?php
-                        global $db;
-                        $viewQuery="SELECT * FROM categories";
-                        $execute = $db->query($viewQuery);
-                        $SrNo=0;
-                        foreach ($execute as $execute){
-                            $Id=$execute["id"];
-                            $nom=$execute["nom"];
-                         
-                        ?>
-                            
-                                    <a class="dropdown-item" href="<?php echo $Id ;?>"><?php echo $nom ;?></a>
-                            <?php } ?>
-                        
-                        
-                      </div>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link " href="#" tabindex="-1" aria-disabled="true">Contacter-Nous</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link " href="#" tabindex="-1" aria-disabled="true">Service</a>
-                    </li>
-                  </ul>
-                  <form class="form-inline my-2 my-lg-0">
-                    <input class="form-control mr-sm-2" type="search" name="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-primary my-2 my-sm-0"  name="searchButton" type="submit">Go</button>
-                  </form>
-                </div>
-         </nav>
-        <div style="height:10px; background:#27aae1;" ></div>
-        
-    <!-- End navbar -->
     <div class="container-fluid">
         <div class="row">
             <div class="col-sm-2">  
@@ -114,9 +42,8 @@ if(isset($_POST["Submit"])){
                         <li ><a class="nav-link " href="dashbord.php">Dashbord</a></li>
                         <li ><a class="nav-link" href="addNewPost.php">Add New Post</a></li>
                         <li ><a class="nav-link active" href="categories.php">Categories</a><li>
-                        <li><a class="nav-link" href="../index.php"> Acceder au Live Blog</a></li>
-                        <li><a class="nav-link" href="admin.php"> Manage Admins</a></li>
-                        <li><a class="nav-link" href="#">Logout</a></li>
+                        <li><a class="nav-link" href="../../blog.php"> Acceder au Live Blog</a></li>                       
+                        <li><a class="nav-link" href="logout.php">Logout</a></li>
                     </ul>
             </div>
         <!-- End aside area -->
@@ -187,19 +114,14 @@ if(isset($_POST["Submit"])){
 
 
     </div>
-    <div id="footer">
-</hr><p>Designed by | kaddour Meach | &copy:2020---All right reserved</p>
-        <a style="color:#fff;text-decoration:none;cursor:pointer; font-weight:bold;" href="#">
-                <p>
-                    this site is only used for confirm the compétance php,sql,front end..  
-                </p>
-        </a>
-    </div>
-    <div style="height:15px;background-color:#e3f2fd"></div>
+    <footer class="blog-footer">
+      <p>Copyright @2020 <a href="index.php">Designe</a> Par <a href="https://twitter.com/mdo">@kaddour</a>.</p>
+     
+    </footer>
 
 
 
 <!-- JS, Popper.js, and jQuery -->
-<script src="js/boost"></script>
+<script src="../../js/bootstrap.min.js"></script>
 </body>
 </html>

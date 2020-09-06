@@ -1,23 +1,15 @@
-<?php
-include("includes/config.php");
-include("includes/db.php");
-// include("includes/function.php");
-// include("includes/sesssion.php");
-
-
-?>
-
-<!Doctype html>
-<html lang="en">
-  <head>
+<!DOCTYPE html>
+<html>
+<head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Blog CMS </title>
     <!-- Bootstrap core CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="../../css/bootstrap.min.css" rel="stylesheet">
     <!-- custom CSS link-->   
-    <link href="css/style.css" rel="stylesheet"> 
+    <link href="../../css/style.css" rel="stylesheet">
+    <link href="../../css/adminstyle.css" rel="stylesheet">
     <style>
     
     header {
@@ -171,47 +163,31 @@ header h1 a img {
         display: block;
     }
 }
-
-
-/* contact css */
-
-
     
     </style>
+
+
   </head>
 
-  <body>
-<!-- Start navbar -->
-<header>
-        <h1><a href="#"><img src="img/logo.png" alt="Logo"/></a></h1>
+<body>
+
+    <!-- Start header -->
+    <header>
+        <h1><a href="#"><img src="../../img/logo.png" alt="Logo"/></a></h1>
         <ul class="custom-navbar js-custom-navbar">
           <li>
-            <a href="blog.php" class="ripple-wave">Blog</a>
+            <a href="../../blog.php" class="ripple-wave">Blog</a>
           </li>
           <li>
-            <a href="about.php" class="ripple-wave">About</a>
+            <a href="../../about.php" class="ripple-wave">About</a>
           </li>
           <li>
-            <a href="contact.php" class="ripple-wave">Contact</a>
+            <a href="../../contact.php" class="ripple-wave">Contact</a>
           </li>
         </ul>
         <button class="menu-icon js-menu-icon">
           <span class="fa fa-bars"></span>
         </button>
       </header>
+        
         <!-- End Navbar -->
-        
-
-     
-
-    <div class="container-fluid">
-            <div class="blog-header">
-                <h1 class="blog-title">Blog-CMS</h1>
-                <p class="lead">Le blog informatif a été développé pour créer un réseau personnel d'informations où une personne peut facilement consulter les informations</p>
-                <hr>
-            </div>
-            <div class="row">
-
-
-              <div class="col-sm-8 blog-main">
-        

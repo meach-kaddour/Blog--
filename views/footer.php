@@ -12,7 +12,9 @@
     ================================================== -->
     
     
-    <script src="js/boost.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/navbar.js"></script>
+
     
   </body>
 </html>
